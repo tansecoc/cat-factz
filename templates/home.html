@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script type=text/javascript>
+			$(function() {
+			  $('a#process_input').bind('click', function() {
+				$.getJSON('/background_process', {
+				  proglang: $('input[name="proglang"]').val(),
+				}, function(data) {
+				  $("#result").text(data.result);
+				});
+				return false;
+			  });
+			});
+		</script>
+        <style>
+            div.catFact {  
+                width: 700px;   
+                /* border: 2px solid red;   */
+                word-wrap: normal;
+                text-align: center;
+                margin: auto;
+            }  
+        </style>
+    </head>
+    <h1 style='text-align: center'>🐈‍⬛ Welcome to Cat Factz! 🐈</h1>
+        <div style='text-align: center'>
+            <p>
+                <img src="{{url_for('static', filename='british_shorthair_1.jpeg')}}" width="700">
+                <br>
+                <form>
+                    <a href=# id=process_input><button width="700">Gimme Da Cat Factz!</button></a>
+                </form>
+            </p>
+        </div>
+        <div class="catFact">
+            <p id=result></p>
+        </div>
+    </p>
+</html>
