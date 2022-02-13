@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 import random
+import itertools
 
 app = Flask(__name__)
 
@@ -21,6 +22,14 @@ cat_facts = ["A female cat is called a queen or a molly.",
     "Purring does not always indicate that a cat is happy and healthy - some cats will purr loudly when they are terrified or in pain.",
     ]
 
+cat_breed_dict = { 1: ("British Shorthair", "british_shorthair_1.jpeg"),
+    2: ("Maine Coon", "maine_coon_1.jpeg"),
+    3: ("Persian", "persian_1.jpeg"),
+    4: ("Siamese", "siamese_1.jpeg")
+    }
+
+cat_breed_dict_cycle = itertools.cycle(cat_breed_dict)
+
 @app.route("/", methods=['GET'])
 def home():
     """Home Page"""
@@ -28,15 +37,13 @@ def home():
 
 @app.route('/background_process')
 def background_process():
-	# try:
-	# 	lang = request.args.get('proglang', 0, type=str)
-	# 	if lang.lower() == 'python':
-	# 		return jsonify(result='You are wise')
-	# 	else:
-	# 		return jsonify(result='Try again.')
-	# except Exception as e:
-	# 	return str(e)
-    return jsonify(result=random.choices(cat_facts))
+    return jsonify(cat_fact=random.choices(cat_facts))
+
+# https://stackoverflow.com/questions/58924015/how-to-display-image-in-flask-after-a-button-is-pressed
+@app.route("/getimage")
+def get_img():
+    breed, image = cat_breed_dict[next(cat_breed_dict_cycle)]
+    return '{}|{}'.format(image, breed)
 
 if __name__ == "__main__":
     app.run("localhost", port=8000)

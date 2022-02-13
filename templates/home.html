@@ -8,34 +8,79 @@
 				$.getJSON('/background_process', {
 				  proglang: $('input[name="proglang"]').val(),
 				}, function(data) {
-				  $("#result").text(data.result);
+				  $("#cat_fact").text(data.cat_fact);
 				});
 				return false;
 			  });
 			});
 		</script>
+        <script>
+            $(document).ready(function() {
+                $('#retrieve').click(function(){
+                    $.ajax({
+                    url: "{{ url_for ('get_img') }}",
+                    type: "GET",
+                    success: function(response) {
+                        const responseArray = response.split("|");
+                        // console.log(responseArray[0]);
+                        $("#myimg").attr('src', '/static/' + responseArray[0]);
+                        $("#cat_breed_info").text(responseArray[1]);
+                    },
+                    error: function(xhr) {
+                        //Do Something to handle error
+                    }
+                    });
+                });
+            });
+        </script>
         <style>
             div.catFact {  
-                width: 700px;   
+                width: 300px;   
                 /* border: 2px solid red;   */
                 word-wrap: normal;
                 text-align: center;
                 margin: auto;
-            }  
+                vertical-align: text-top;
+            }
+            .row {
+            display: flex;
+            }
+
+            .column {
+            flex: 50%;
+            word-wrap: normal;
+            text-align: center;
+            margin: auto;
+            vertical-align: text-top;
+            /* border: 2px solid red; */
+            height: 600px;
+            }
         </style>
     </head>
-    <h1 style='text-align: center'>🐈‍⬛ Welcome to Cat Factz! 🐈</h1>
-        <div style='text-align: center'>
-            <p>
-                <img src="{{url_for('static', filename='british_shorthair_1.jpeg')}}" width="700">
-                <br>
-                <form>
+    <body>
+        <h1 style='text-align: center'>🐈‍⬛ Welcome to Cat Factz! 🐈</h1>
+        <div class="row">
+            <div class="column">
+                <div style='text-align: center'>
+                    <button type='button' id='retrieve'>Click to learn about a breed!</button>
+                    <br>
+                    <br>
+                    <img src="" id="myimg" width ="300" />
+                    <br>
+                    <p id=cat_breed_info></p>
+                </div>
+            </div>
+            
+            <div class="column">
+                <!-- <form> -->
                     <a href=# id=process_input><button width="700">Gimme Da Cat Factz!</button></a>
-                </form>
-            </p>
+                <!-- </form> -->
+                <div class="catFact">
+                    <p id=cat_fact></p>
+                </div>
+                <br>
+                <br>
+            </div>
         </div>
-        <div class="catFact">
-            <p id=result></p>
-        </div>
-    </p>
+    </body>
 </html>
