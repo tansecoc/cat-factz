@@ -5,7 +5,8 @@ import itertools
 app = Flask(__name__)
 
 # https://catfact.ninja/
-cat_facts = ["A female cat is called a queen or a molly.",
+cat_facts = [
+    "A female cat is called a queen or a molly.",
     "Cats have 30 teeth (12 incisors, 10 premolars, 4 canines, and 4 molars), while dogs have 42. Kittens have baby teeth, which are replaced by permanent teeth around the age of 7 months.",
     "A cat's normal pulse is 140-240 beats per minute, with an average of 195.",
     "Jaguars are the only big cats that don't roar.",
@@ -22,10 +23,12 @@ cat_facts = ["A female cat is called a queen or a molly.",
     "Purring does not always indicate that a cat is happy and healthy - some cats will purr loudly when they are terrified or in pain.",
     ]
 
-cat_breed_dict = { 1: ("British Shorthair", "british_shorthair_1.jpeg"),
-    2: ("Maine Coon", "maine_coon_1.jpeg"),
-    3: ("Persian", "persian_1.jpeg"),
-    4: ("Siamese", "siamese_1.jpeg")
+# breed, image, low_weight, high_weight
+cat_breed_dict = { 
+    1: ("British Shorthair", "british_shorthair_1.jpeg", 7, 17),
+    2: ("Maine Coon", "maine_coon_1.jpeg", 8, 18),
+    3: ("Persian", "persian_1.jpeg", 7, 12),
+    4: ("Siamese", "siamese_1.jpeg", 8, 15)
     }
 
 cat_breed_dict_cycle = itertools.cycle(cat_breed_dict)
@@ -42,8 +45,8 @@ def background_process():
 # https://stackoverflow.com/questions/58924015/how-to-display-image-in-flask-after-a-button-is-pressed
 @app.route("/getimage")
 def get_img():
-    breed, image = cat_breed_dict[next(cat_breed_dict_cycle)]
-    return '{}|{}'.format(image, breed)
+    breed, image, low_weight, high_weight = cat_breed_dict[next(cat_breed_dict_cycle)]
+    return '{}|{}|{}|{}'.format(image, breed, low_weight, high_weight)
 
 if __name__ == "__main__":
     app.run("localhost", port=8000)
