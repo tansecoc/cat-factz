@@ -1,0 +1,3 @@
+Information:
+1) how to deploy heroku app - https://realpython.com/flask-by-example-part-1-project-setup/#deploying-the-application-to-heroku
+2) use the following to push to heroku repo: "git push heroku HEAD:master"
