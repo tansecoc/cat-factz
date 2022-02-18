@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify
+import requests
 import random
 import itertools
 
@@ -47,6 +48,13 @@ def background_process():
 def get_img():
     breed, image, low_weight, high_weight = cat_breed_dict[next(cat_breed_dict_cycle)]
     return '{}|{}|{}|{}'.format(image, breed, low_weight, high_weight)
+
+@app.route("/catfactsapi")
+def cat_fact_api():
+    response = requests.get("https://catfact.ninja/fact")
+    json = response.json()
+    fact = json['fact']
+    return fact
 
 if __name__ == "__main__":
     app.run("localhost", port=8000)
