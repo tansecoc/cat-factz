@@ -41,7 +41,11 @@ def home():
 
 @app.route('/background_process')
 def background_process():
-    return jsonify(cat_fact=random.choices(cat_facts))
+    # return jsonify(cat_fact=random.choices(cat_facts))
+    response = requests.get("https://catfact.ninja/fact")
+    json = response.json()
+    fact = json['fact']
+    return jsonify(fact)
 
 # https://stackoverflow.com/questions/58924015/how-to-display-image-in-flask-after-a-button-is-pressed
 @app.route("/getimage")
@@ -58,3 +62,4 @@ def cat_fact_api():
 
 if __name__ == "__main__":
     app.run("localhost", port=8000)
+
