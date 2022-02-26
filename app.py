@@ -45,7 +45,7 @@ def background_process():
     response = requests.get("https://catfact.ninja/fact")
     json = response.json()
     fact = json['fact']
-    return jsonify(fact)
+    return jsonify(cat_fact=fact)
 
 # https://stackoverflow.com/questions/58924015/how-to-display-image-in-flask-after-a-button-is-pressed
 @app.route("/getimage")
