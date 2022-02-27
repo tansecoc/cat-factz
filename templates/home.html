@@ -28,6 +28,8 @@
                         $("#cat_breed").text(responseArray[1]);
                         $("#low_weight").text(responseArray[2]);
                         $("#high_weight").text(responseArray[3]);
+                        $("#low_unit").text('lb');
+                        $("#high_unit").text('lb');
                         $("#toggleWeight").attr('checked', false);
                     },
                     error: function(xhr) {
