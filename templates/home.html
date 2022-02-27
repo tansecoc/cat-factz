@@ -24,11 +24,43 @@
                     type: "GET",
                     success: function(response) {
                         const responseArray = response.split("|");
-                        // console.log(responseArray[0]);
                         $("#myimg").attr('src', '/static/' + responseArray[0]);
                         $("#cat_breed").text(responseArray[1]);
                         $("#low_weight").text(responseArray[2]);
                         $("#high_weight").text(responseArray[3]);
+                    },
+                    error: function(xhr) {
+                        //Do Something to handle error
+                    }
+                    });
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                
+                $('#toggleWeight').click(function(){
+                    var low_weight = $("#low_weight").text();
+                    var high_weight = $("#high_weight").text();
+                    var low_unit = $("#low_unit").text();
+                    var high_unit = $("#high_unit").text();
+
+                    var data = {
+                        'low_weight':low_weight,
+                        'high_weight':high_weight,
+                        'low_unit':low_unit,
+                        'high_unit':high_unit
+                    }
+
+                    $.ajax({
+                    url: "{{ url_for ('convert_weight') }}",
+                    type: "POST",
+                    data: data,
+                    success: function(response) {
+                        $("#low_weight").text(response['low_weight']);
+                        $("#high_weight").text(response['high_weight']);
+                        $("#low_unit").text(response['unit']);
+                        $("#high_unit").text(response['unit']);
                     },
                     error: function(xhr) {
                         //Do Something to handle error
@@ -165,7 +197,7 @@
                                 <p>lbs 
                                 <!-- Rounded switch -->
                                 <label class="switch">
-                                    <input type="checkbox">
+                                    <input type="checkbox" id="toggleWeight">
                                     <span class="slider round"></span>
                                 </label>
                                  kgs</p>
@@ -174,12 +206,12 @@
                         <tr>
                             <td>Weight (low)</td>
                             <td id=low_weight>-</td>
-                            <td>lbs</td>
+                            <td id=low_unit>lb</td>
                         </tr>
                         <tr>
                             <td>Weight (high)</td>
                             <td id=high_weight>-</td>
-                            <td>lbs</td>
+                            <td id=high_unit>lb</td>
                         </tr>
                     </table>
                     <br>

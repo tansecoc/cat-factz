@@ -41,7 +41,6 @@ def home():
 
 @app.route('/background_process')
 def background_process():
-    # return jsonify(cat_fact=random.choices(cat_facts))
     response = requests.get("https://catfact.ninja/fact")
     json = response.json()
     fact = json['fact']
@@ -59,6 +58,43 @@ def cat_fact_api():
     json = response.json()
     fact = json['fact']
     return fact
+
+@app.route("/toggleWeight", methods=['GET','POST'])
+def convert_weight():
+    response_payload = {}
+    
+    if request.method == "POST":
+        low_weight = request.form['low_weight']
+        high_weight = request.form['high_weight']
+        low_unit = request.form['low_unit']
+        high_unit = request.form['high_unit']
+
+        print("LOW_UNIT: ", low_unit)
+
+        if low_unit == 'lb':
+            print("test1")
+            current_unit = 'lb'
+            convert_unit = 'kg'
+        else:
+            print("test2")
+            current_unit = 'kg'
+            convert_unit = 'lb'
+
+        endpoint = "https://cs361-mass-unit-converter.herokuapp.com/"
+
+        low_weight_query = endpoint + low_weight + "/" + current_unit + "/" + convert_unit
+        low_weight_response = requests.get(low_weight_query)
+        low_weight_json = low_weight_response.json()
+
+        high_weight_query = endpoint + high_weight + "/" + current_unit + "/" + convert_unit
+        high_weight_response = requests.get(high_weight_query)
+        high_weight_json = high_weight_response.json()
+
+        response_payload['low_weight'] = str(round(float(low_weight_json['result_mass']), 1))
+        response_payload['high_weight'] = str(round(float(high_weight_json['result_mass']), 1))
+        response_payload['unit'] = low_weight_json['result_units']
+
+    return response_payload
 
 if __name__ == "__main__":
     app.run("localhost", port=8000)
