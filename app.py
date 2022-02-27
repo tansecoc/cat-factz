@@ -69,14 +69,10 @@ def convert_weight():
         low_unit = request.form['low_unit']
         high_unit = request.form['high_unit']
 
-        print("LOW_UNIT: ", low_unit)
-
         if low_unit == 'lb':
-            print("test1")
             current_unit = 'lb'
             convert_unit = 'kg'
         else:
-            print("test2")
             current_unit = 'kg'
             convert_unit = 'lb'
 

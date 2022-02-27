@@ -28,6 +28,7 @@
                         $("#cat_breed").text(responseArray[1]);
                         $("#low_weight").text(responseArray[2]);
                         $("#high_weight").text(responseArray[3]);
+                        $("#toggleWeight").attr('checked', false);
                     },
                     error: function(xhr) {
                         //Do Something to handle error
